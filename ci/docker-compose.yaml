@@ -1,0 +1,36 @@
+version: "3.1"
+volumes:
+  netflix-shareengine-api-data:
+services: 
+    netflix-shareengine-api:
+        container_name: netflix.shareengine.api
+        image: ${IMAGE}
+        restart: always
+        networks:
+          - web
+          - internal
+        ports:
+          - 6065:80
+        volumes:
+          - netflix-shareengine-api-data:/data          
+        logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        labels:          
+          - traefik.enable=true
+          - traefik.http.middlewares.netflix-shareengine-api-redirect-websecure.redirectscheme.scheme=https
+          - traefik.backend=netflix-shareengine-api         
+          - traefik.http.routers.netflix-shareengine-api.middlewares=netflix-shareengine-api-redirect-websecure
+          - traefik.http.routers.netflix-shareengine-api.entrypoints=web
+          - traefik.http.routers.netflix-shareengine-api.rule=Host(`netflix.crititag.com`)          
+          - traefik.http.routers.netflix-shareengine-api-websecure.rule=Host(`netflix.crititag.com`)
+          - traefik.http.routers.netflix-shareengine-api-websecure.entrypoints=websecure
+          - traefik.http.routers.netflix-shareengine-api-websecure.tls.certresolver=le
+          - traefik.http.routers.netflix-shareengine-api-websecure.tls=true
+          - traefik.docker.network=web          
+networks:
+  web:
+    external: true
+  internal:
+    external: false
