@@ -1,7 +1,20 @@
 version: "3.1"
 volumes:
   netflix-shareengine-api-data:
-services: 
+services:
+    # postfix:
+    #   container_name: shareengine.email
+    #   image: postfix
+    #   ports:
+    #     - "25:25"
+    #     - "587:587"
+    #     - "995:995"
+    #   environment:
+    #     POSTFIX_MYHOSTNAME: netflix.crititag.com
+    #     POSTFIX_MYNETWORKS: "0.0.0.0/0 [::]/0"
+    #     POSTFIX_SMTP_TLS_SECURITY_LEVEL: may
+    #   volumes:
+    #     - /path/to/postfix:/etc/postfix
     netflix-shareengine-api:
         container_name: netflix.shareengine.api
         image: ${IMAGE}
