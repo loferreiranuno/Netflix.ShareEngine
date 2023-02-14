@@ -41,7 +41,7 @@ namespace Netflix.ShareEngine.Api.Application.Services
             }
             catch(Exception ex)
             {
-                throw new ConnectToPostfixException($"Host: {_host} UserName:{_userName} Password:{_password}", ex);
+                throw new ConnectToPostfixException($"Failed to connect to {_host}:{_port} with {_userName}:{_password}.", ex);
             }
 
             return false;
