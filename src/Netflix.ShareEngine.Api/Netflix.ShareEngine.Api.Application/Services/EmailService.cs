@@ -22,6 +22,6 @@ namespace Netflix.ShareEngine.Api.Application.Services
             client.Connect();
 
             client.Disconnect();
-        }
+        } 
     }
 }

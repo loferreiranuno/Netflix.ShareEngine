@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 
 // Register Services
+builder.Services.AddSingleton<IGeneratorService, GeneratorService>();
 builder.Services.AddSingleton<IEmailService>(r => 
 {
     var config = r.GetService<IConfiguration>() ?? throw new ConfigurationException("Configuration not loaded");    
