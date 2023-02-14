@@ -1,4 +1,5 @@
 using Netflix.ShareEngine.Api.Application.Interfaces;
+using Netflix.ShareEngine.Domain.Entities.Exceptions;
 using Renci.SshNet;
 
 namespace Netflix.ShareEngine.Api.Application.Services
@@ -25,12 +26,22 @@ namespace Netflix.ShareEngine.Api.Application.Services
 
         public bool CanConnect()
         {
-            using var client = new SftpClient(_host, _userName, _password);
-            client.Connect();
+            try 
+            {
+                using var client = new SftpClient(_host, _userName, _password);
 
-            if(client.IsConnected) 
-                return true; 
-            
+                client.Connect();
+
+                if(client.IsConnected)
+                {
+                    return true;                 
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new ConnectToPostfixException($"Host: {_host} UserName:{_userName} Password:{_password}", ex);
+            }
+
             return false;
         }
     }
