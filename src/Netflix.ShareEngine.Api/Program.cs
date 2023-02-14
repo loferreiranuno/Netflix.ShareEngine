@@ -21,9 +21,10 @@ builder.Services.AddSingleton<IEmailService>(r =>
 {
     var config = r.GetService<IConfiguration>() ?? throw new ConfigurationException("Configuration not loaded");    
     var smtpHost = config.GetValue<string>("SMTP_HOST") ?? throw new ConfigurationException("SMTP_HOST not configured");
+    var stmpPort = config.GetValue<int?>("SMTP_PORT") ?? throw new ConfigurationException("SMTP_PORT not configured");
     var smtpUsername = config.GetValue<string>("SMTP_USERNAME") ?? throw new ConfigurationException("SMTP_USERNAME not configured");
     var smtpPassword = config.GetValue<string>("SMTP_PASSWORD") ?? throw new ConfigurationException("SMTP_PASSWORD not configured");
-    return new EmailService(smtpHost, smtpUsername, smtpPassword);  
+    return new EmailService(smtpHost, stmpPort, smtpUsername, smtpPassword);  
 });
 
 var app = builder.Build();

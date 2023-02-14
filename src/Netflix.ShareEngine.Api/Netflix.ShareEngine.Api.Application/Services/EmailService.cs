@@ -7,19 +7,21 @@ namespace Netflix.ShareEngine.Api.Application.Services
     public class EmailService : IEmailService
     {
         private readonly string _host;
+        private readonly int _port;
         private readonly string _userName;
         private readonly string _password;
 
-        public EmailService(string host, string userName, string password)
+        public EmailService(string host, int port, string userName, string password)
         {
             _host = host;
+            _port = port;
             _userName = userName;
             _password = password;
         }
 
         public void CreateEmailAccount(string email, string password)
         { 
-            using var client = new SftpClient(_host, _userName, _password);
+            using var client = new SftpClient(_host, _port, _userName, _password);
             client.Connect();
             client.Disconnect();
         } 
