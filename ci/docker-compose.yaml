@@ -2,19 +2,21 @@ version: "3.1"
 volumes:
   netflix-shareengine-api-data:
 services:
-    # postfix:
-    #   container_name: shareengine.email
-    #   image: postfix
-    #   ports:
-    #     - "25:25"
-    #     - "587:587"
-    #     - "995:995"
-    #   environment:
-    #     POSTFIX_MYHOSTNAME: netflix.crititag.com
-    #     POSTFIX_MYNETWORKS: "0.0.0.0/0 [::]/0"
-    #     POSTFIX_SMTP_TLS_SECURITY_LEVEL: may
-    #   volumes:
-    #     - /path/to/postfix:/etc/postfix
+    postfix:
+      container_name: shareengine.email
+      image: catatnight/postfix
+      ports:
+        - "25:25"
+        - "587:587"
+      environment:
+        - MAIL_DOMAIN=netflix.crititag.com
+        - SMTP_USER=${POSTFIX_USERNAME}:${POSTFIX_PASSWORD}
+      volumes:
+        - ./data/spool:/var/spool/postfix
+        - ./data/logs:/var/log/postfix
+      networks:
+        - web        
+        - internal
     netflix-shareengine-api:
         container_name: netflix.shareengine.api
         image: ${IMAGE}
@@ -23,13 +25,18 @@ services:
           - web
           - internal
         ports:
-          - 6065:80
+          - 7000:80
         volumes:
           - netflix-shareengine-api-data:/data          
         logging:
           options:
             max-size: 10m
             max-file: "3"
+        environment:
+            - SMTP_HOST=postfix
+            - SMTP_PORT=587
+            - SMTP_USERNAME=${POSTFIX_USERNAME}
+            - SMTP_PASSWORD=${POSTFIX_PASSWORD}
         labels:          
           - traefik.enable=true
           - traefik.http.middlewares.netflix-shareengine-api-redirect-websecure.redirectscheme.scheme=https

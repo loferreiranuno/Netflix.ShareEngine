@@ -1,6 +1,7 @@
 node('docker-slave') {   
     withCredentials([
-        sshUserPrivateKey(credentialsId: 'SSH_PLANPLEASE_GIT', keyFileVariable: 'SSH_KEY_FILE')
+        sshUserPrivateKey(credentialsId: 'SSH_PLANPLEASE_GIT', keyFileVariable: 'SSH_KEY_FILE'),
+        usernamePassword(credentialsId: 'POSTFIX_USER', usernameVariable: 'POSTFIX_USERNAME', passwordVariable: 'POSTFIX_PASSWORD') 
     ]) {
 
     withEnv([                
