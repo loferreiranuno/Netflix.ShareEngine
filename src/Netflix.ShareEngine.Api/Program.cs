@@ -18,10 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IEmailService>(r => 
 {
     var config = r.GetService<IConfiguration>() ?? throw new ConfigurationException("Configuration not loaded");    
-    var smtpHost = config.GetValue<string>("SMTP_HOST") ?? throw new ConfigurationException("SMTP_HOST no está configurado");
-    var smtpUsername = config.GetValue<string>("SMTP_USERNAME") ?? throw new ConfigurationException("SMTP_USERNAME no está configurado");
-    var smtpPassword = config.GetValue<string>("SMTP_PASSWORD") ?? throw new ConfigurationException("SMTP_PASSWORD no está configurado");
-
+    var smtpHost = config.GetValue<string>("SMTP_HOST") ?? throw new ConfigurationException("SMTP_HOST not configured");
+    var smtpUsername = config.GetValue<string>("SMTP_USERNAME") ?? throw new ConfigurationException("SMTP_USERNAME not configured");
+    var smtpPassword = config.GetValue<string>("SMTP_PASSWORD") ?? throw new ConfigurationException("SMTP_PASSWORD not configured");
     return new EmailService(smtpHost, smtpUsername, smtpPassword);  
 });
 
