@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using Netflix.ShareEngine.Api.Application.Interfaces;
 using Netflix.ShareEngine.Api.Application.Services;
 using Netflix.ShareEngine.Domain.Entities.Exceptions;
@@ -38,10 +39,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
-
-app.UseDefaultFiles();
-
-app.UseStaticFiles();
+app.MapControllers(); 
 
 app.Run();

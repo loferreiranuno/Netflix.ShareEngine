@@ -20,8 +20,18 @@ namespace Netflix.ShareEngine.Api.Application.Services
         { 
             using var client = new SftpClient(_host, _userName, _password);
             client.Connect();
-
             client.Disconnect();
         } 
+
+        public bool CanConnect()
+        {
+            using var client = new SftpClient(_host, _userName, _password);
+            client.Connect();
+
+            if(client.IsConnected) 
+                return true; 
+            
+            return false;
+        }
     }
 }

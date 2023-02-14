@@ -18,8 +18,17 @@ public class EmailController : ControllerBase
         _generatorService = generator;
     } 
 
+    [HttpGet]
+    [Route("")]
+    public IActionResult Get()
+    {
+        var canConnect = _emailService.CanConnect();
+        var message = canConnect ? "Connected" : "Disconnected";
+        return Ok(message);
+    }
+
     [HttpPost]
-    [Route("user/add")]
+    [Route("create")]
     public IActionResult Add()
     {
         var username = _generatorService.GenerateUsername(10);
